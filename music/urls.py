@@ -14,6 +14,5 @@ urlpatterns = [
     path('<int:pk>/delete_album/', views.AlbumDelete.as_view(), name='delete_album'),
     path('song/<str:filter_by>', views.SongView.as_view(), name='songs'),
     path('<user>/<int:pk>/create_song/', views.SongCreate.as_view(), name='create_song'),
-    path('<int:pk>/delete_song/<int:song_pk>/', views.SongDelete.as_view(), name='delete_song'),
+    path('<user>/<int:pk>/delete_song/<int:song_pk>/', views.SongDelete.as_view(), name='delete_song'),
 ]
-# dfdfdfdf

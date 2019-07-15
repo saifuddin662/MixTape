@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -55,7 +55,7 @@ class SongView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Song.objects.filter(user)
+        return Song.objects.filter(user=user)
 
 
 class SongCreate(LoginRequiredMixin, CreateView):
@@ -63,13 +63,21 @@ class SongCreate(LoginRequiredMixin, CreateView):
     fields = ['song_title', 'audio_file']
 
     def form_valid(self, form):
-        form.instance.album = self.request.album
+        # album = Album.objects.get(pk=self.kwargs['pk'])
+        album = get_object_or_404(Album, pk=self.kwargs.get('pk'))
+        form.instance.user = self.request.user
+        form.instance.album = album
         return super(SongCreate, self).form_valid(form)
 
 
 class SongDelete(LoginRequiredMixin, DeleteView):
     model = Song
-    success_url = reverse_lazy('music:detail')
+
+    def get_success_url(self):
+        album = self.object.album
+        user = album.user
+        pk = album.pk
+        return reverse_lazy('music:detail', kwargs={'user': user, 'pk': pk})
 
 
 class UserFormView(View):

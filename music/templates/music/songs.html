@@ -27,7 +27,7 @@
                                 <th>Artist</th>
                                 <th>Audio File</th>
                                 <th>Album</th>
-                                <th>Favorite</th>
+{#                                <th>Favorite</th>#}
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                                     </td>
                                     <td>
                                         <a href="{% url 'music:detail' user song.album.id %}">
-                                            <img src="{{ song.album.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                            <img src="{{ song.album.album_logo.url }}" alt="img" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
                                         </a>
                                         <a href="{% url 'music:detail' user song.album.id %}">{{ song.album.album_title }}</a>
                                     </td>
